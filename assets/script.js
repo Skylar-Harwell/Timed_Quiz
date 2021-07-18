@@ -1,26 +1,26 @@
 var startButton = document.getElementById('start-btn')
+var scoreButton = document.getElementById('high-scores')
 var questionBoxEl = document.getElementById('question-box')
 var questionEl = document.getElementById('question')
 var answerBtnEl = document.getElementById('answer-choice')
+var timerDisplay = document.getElementById('time-left')
 
-var score = 0
-
-
-// let shuffledQuestions, currentQuestionIndex
-
-startButton.addEventListener('click', startGame)
+var timer;
+var timerCount;
 
 function startGame() {
+    timerCount = 30;
     startButton.classList.add('hide')
-    shuffledQuestions = questions.sort(() => Math.random() - .5)
+    availQuestions = questions.sort(() => Math.random() - .5)
     currentQuestionIndex = 0
     questionBoxEl.classList.remove('hide')
     setNextQuestion()
+    startTimer()
 }
 
 function setNextQuestion() {
-    resetState()
-    showQuestion(shuffledQuestions[currentQuestionIndex])
+    resetContainer()
+    showQuestion(availQuestions[currentQuestionIndex])
     }
 
 function showQuestion(question) {
@@ -37,7 +37,7 @@ function showQuestion(question) {
     })
 }
 
-function resetState() {
+function resetContainer() {
     while (answerBtnEl.firstChild) {
         answerBtnEl.removeChild(answerBtnEl.firstChild)
     }
@@ -46,17 +46,24 @@ function resetState() {
 function selectAnswer(event) {
     var selectedButton = event.target
     var correct = selectedButton.dataset.correct
-    setStatusClass(document.body, correct)
-    Array.from(answerBtnEl.children).forEach (button => {
-        setStatusClass(button, button.dataset.correct)
-    })
+    if (selectedButton === true) {
+        setNextQuestion()
+    }
 }
 
-function setStatusClass(element, correct) {
-    clearStatusClass(element)
-    if (correct) {
-        
+function startTimer() {
+    timer = setInterval(function() {
+        timerCount--;
+        timerDisplay.textContent = timerCount;
+        if (timerCount >= 0) {
+            if (timerCount > 0) {
+            clearInterval(timer);
+        }
     }
+    if (timerCount === 0) {
+        clearInterval(timer);
+    }
+}, 1000);
 }
 
 var questions = [
@@ -106,3 +113,7 @@ var questions = [
         ]
     }
 ]
+
+
+startButton.addEventListener('click', startGame);
+answerBtnEl.addEventListener('click', selectAnswer);

@@ -10,14 +10,17 @@
 </head>
 
 <body>
-    <!-- <header>
+    <header>
         <nav>
-            <ul>
-                <li>High Scores</li>
-                <li class="time-clock">Time</li>
-            </ul>
+            <h2>
+                <button class="high-scores">High Scores
+                </button>
+            </h2>
+            <h2 class="time-clock">Time:  <span id="time-left">30</span>
+            </h2>
         </nav>
-    </header> -->
+    </header>
+    <main>
     <div class="container">
         <div id="question-box" class="hide">
             <div id="question">Question</div>
@@ -28,10 +31,12 @@
                 <button class="btn">Answer 4</button>
             </div>
         </div>
+        <div class ="hide" id="scoreboard">Scoreboard</div>
         <div class="controls">
             <button id="start-btn" class="start-btn btn">Start</button>
         </div>
     </div>
+    </main>
 
     <script src="assets/script.js"></script>
 
