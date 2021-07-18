@@ -1,0 +1,65 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+body {
+    padding: 0px;
+    margin: 0;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: #d0d0d0;
+}
+/* header nav ul li{
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+    list-style: none;
+} */
+
+.container {
+    width: 800px;
+    max-width: 80%;
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 0 12px 4px;
+}
+
+.btn-layout {
+    display: grid;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.btn {
+    background-color: #6b00b7;
+    border-radius: 5px;
+    padding: 10px;
+    color: #ffffff;
+    outline: none;
+}
+
+.btn:hover {
+    border-color: #000000;
+    border: dotted 3px;
+}
+
+.start-btn {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 10px 20px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hide {
+    display: none;
+}
