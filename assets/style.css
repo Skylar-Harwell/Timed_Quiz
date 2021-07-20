@@ -79,6 +79,17 @@ header nav h2 {
     padding: 10px 20px;
 }
 
+.btn.correct {
+    background-color: #40ff00;
+    color: #000000;
+    font-weight: bold;
+}
+
+.btn.wrong {
+    background-color: #ff0000;
+    font-weight: bolder;
+}
+
 .controls {
     display: flex;
     justify-content: center;

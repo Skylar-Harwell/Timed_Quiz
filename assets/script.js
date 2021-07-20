@@ -5,16 +5,18 @@ var questionEl = document.getElementById('question')
 var answerBtnEl = document.getElementById('answer-choice')
 var timerDisplay = document.getElementById('time-left')
 
+var isWin = false;
 var timer;
 var timerCount;
 
 function startGame() {
-    timerCount = 30;
+    isWin = false
     startButton.classList.add('hide')
     availQuestions = questions.sort(() => Math.random() - .5)
     currentQuestionIndex = 0
     questionBoxEl.classList.remove('hide')
     setNextQuestion()
+    timerCount = 30;
     startTimer()
 }
 
@@ -46,9 +48,27 @@ function resetContainer() {
 function selectAnswer(event) {
     var selectedButton = event.target
     var correct = selectedButton.dataset.correct
-    if (selectedButton === true) {
-        setNextQuestion()
+    setStatusClass(document.body, correct)
+    Array.from(answerBtnEl.children).forEach(button =>{
+        setStatusClass(button, button.dataset.correct)
+    })
+    if (availQuestions.length === currentQuestionIndex.length) {
+        winGame()
     }
+}
+
+function setStatusClass(element, correct) {
+    clearStatusClass(element)
+    if (correct) {
+        element.classList.add('correct')
+    } else {
+        element.classlist.add('wrong')
+    }
+}
+
+function clearStatusClass(element) {
+    element.classList.remove('correct')
+    element.classList.remove('wrong')
 }
 
 function startTimer() {
@@ -56,15 +76,40 @@ function startTimer() {
         timerCount--;
         timerDisplay.textContent = timerCount;
         if (timerCount >= 0) {
-            if (timerCount > 0) {
+            if (isWin && timerCount > 0) {
             clearInterval(timer);
+            winGame();
+            }
         }
-    }
-    if (timerCount === 0) {
+        if (timerCount === 0) {
         clearInterval(timer);
-    }
-}, 1000);
+        loseGame();
+        }
+    }, 1000);
 }
+
+function winGame() { 
+    questionEl.textContent = "WINNER!!🏆 ";
+    setHighScore();
+}
+
+function loseGame() {
+    questionEl.textContent = "GAME OVER";
+    // sound()
+}
+
+function setHighScore() {
+    
+}
+
+// function sound() {
+//     var audio = document.createElement("audio")
+//     audio.src = "https://freesound.org/people/kirbydx/sounds/175409/"
+//     audio.addEventListener("ended", function () {
+//         document.removeChild(this);
+//     }, false);
+//     audio.play();
+// }
 
 var questions = [
     {
@@ -116,4 +161,7 @@ var questions = [
 
 
 startButton.addEventListener('click', startGame);
-answerBtnEl.addEventListener('click', selectAnswer);
+answerBtnEl.addEventListener('click', () => {
+    currentQuestionIndex++
+    setNextQuestion()
+})
