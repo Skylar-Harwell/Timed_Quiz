@@ -8,6 +8,9 @@ var timerDisplay = document.getElementById('time-left')
 var isWin = false;
 var timer;
 var timerCount;
+var availQuestions = [];
+var currentQuestionIndex = 0;
+var score = 0;
 
 function startGame() {
     isWin = false
@@ -48,28 +51,39 @@ function resetContainer() {
 function selectAnswer(event) {
     var selectedButton = event.target
     var correct = selectedButton.dataset.correct
-    setStatusClass(document.body, correct)
-    Array.from(answerBtnEl.children).forEach(button =>{
-        setStatusClass(button, button.dataset.correct)
-    })
-    if (availQuestions.length === currentQuestionIndex.length) {
-        winGame()
-    }
-}
-
-function setStatusClass(element, correct) {
-    clearStatusClass(element)
-    if (correct) {
-        element.classList.add('correct')
+    if (!correct) {
+        timerCount = timerCount - 5
     } else {
-        element.classlist.add('wrong')
+        score = score + 12
+    }
+    
+    // setStatusClass(document.body, correct)
+    // Array.from(answerBtnEl.children).forEach(button =>{
+    //     setStatusClass(button, button.dataset.correct)
+    // })
+
+}
+
+function checkWin() {
+    if(availQuestions.length === currentQuestionIndex) {
+        isWin = true;
+        return true;
     }
 }
 
-function clearStatusClass(element) {
-    element.classList.remove('correct')
-    element.classList.remove('wrong')
-}
+// function setStatusClass(element, correct) {
+//     clearStatusClass(element)
+//     if (correct) {
+//         element.classList.add('correct')
+//     } else {
+//         element.classlist.add('wrong')
+//     }
+// }
+
+// function clearStatusClass(element) {
+//     element.classList.remove('correct')
+//     element.classList.remove('wrong')
+// }
 
 function startTimer() {
     timer = setInterval(function() {
@@ -81,7 +95,9 @@ function startTimer() {
             winGame();
             }
         }
-        if (timerCount === 0) {
+        if (timerCount <= 0) {
+        timerCount = 0;
+        timerDisplay.textContent = timerCount;
         clearInterval(timer);
         loseGame();
         }
@@ -89,27 +105,36 @@ function startTimer() {
 }
 
 function winGame() { 
-    questionEl.textContent = "WINNER!!🏆 ";
+    questionEl.textContent = "WINNER!!🏆";
     setHighScore();
 }
 
 function loseGame() {
     questionEl.textContent = "GAME OVER";
-    // sound()
+    loseSound()
 }
 
 function setHighScore() {
-    
+    var highScore = timerCount + score;
+    var previousHigh = localStorage.getItem("score");
+    var initials = userInput;
+    if (previousHigh < highScore) {
+        var userInput = window.prompt("Congrats WINNER!!🏆Please enter your initals.");
+        localStorage.setItem("score", highScore);
+        localStorage.setItem("initials", userInput);
+    }
+    console.log(highScore);
+    console.log(userInput);
 }
 
-// function sound() {
-//     var audio = document.createElement("audio")
-//     audio.src = "https://freesound.org/people/kirbydx/sounds/175409/"
-//     audio.addEventListener("ended", function () {
-//         document.removeChild(this);
-//     }, false);
-//     audio.play();
-// }
+function loseSound() {
+    var audio = document.createElement("audio")
+    audio.src = "/assets/sad_trombone.wav"
+    // audio.addEventListener("ended", function () {
+    //     document.removeChild(this);
+    // }, false);
+    audio.play();
+}
 
 var questions = [
     {
@@ -122,12 +147,12 @@ var questions = [
         ]
     },
     {
-        question: 'What are Java Strings used for?',
+        question: 'What are Javascript Strings used for?',
         answers: [
+            { text: 'Going back in time', correct: false},
             { text: 'Adding Numbers', correct: false},
             { text: 'Storing Text', correct: true},
             { text: 'Creating Classes', correct: false},
-            { text: 'Going back in time', correct: false},
         ]
     },
     {
@@ -140,12 +165,12 @@ var questions = [
         ]
     },
     {
-        question: 'What Java class allows you to perform mathematical tasks on numbers??',
+        question: 'What Javascript class allows you to perform mathematical tasks on numbers??',
         answers: [
             { text: 'Calc', correct: false},
             { text: 'Number', correct: false},
-            { text: 'Math', correct: true},
             { text: 'Add', correct: false},
+            { text: 'Math', correct: true},
         ]
     },
     {
@@ -163,5 +188,13 @@ var questions = [
 startButton.addEventListener('click', startGame);
 answerBtnEl.addEventListener('click', () => {
     currentQuestionIndex++
-    setNextQuestion()
+        if (checkWin() === true) {
+            answerBtnEl.classList.add('hide')
+            winGame()
+        } else {
+            setNextQuestion()
+        }
 })
+// scoreButton.addEventListener('click', () => {
+//     alert(localStorage.getItem(highScore) + (localStorage.getItem(highScore)));
+// })

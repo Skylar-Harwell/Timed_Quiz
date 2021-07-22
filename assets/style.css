@@ -54,6 +54,11 @@ header nav h2 {
     box-shadow: 0 0 12px 4px;
 }
 
+#question {
+    display: flex;
+    justify-content: center;
+}
+
 .btn-layout {
     display: grid;
     gap: 10px;
@@ -79,7 +84,7 @@ header nav h2 {
     padding: 10px 20px;
 }
 
-.btn.correct {
+/* .btn.correct {
     background-color: #40ff00;
     color: #000000;
     font-weight: bold;
@@ -88,7 +93,7 @@ header nav h2 {
 .btn.wrong {
     background-color: #ff0000;
     font-weight: bolder;
-}
+} */
 
 .controls {
     display: flex;
