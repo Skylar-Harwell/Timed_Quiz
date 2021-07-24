@@ -4,7 +4,9 @@
 
 Simple little quiz about Javascript. You have a start time of 30 seconds that starts once you click "Start". Time is deducted for each wrong answer. Points are added for every correct answer. The faster you answer the greater your score. Try and beat your friends!
 
-GitHub Site Page: 
+Sound coming soon! 
+
+GitHub Site Page: https://skylar-harwell.github.io/Timed_Quiz/
 
 GitHub Repository: https://github.com/Skylar-Harwell/Timed_Quiz
 
