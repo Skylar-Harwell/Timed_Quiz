@@ -11,6 +11,8 @@ var timerCount;
 var availQuestions = [];
 var currentQuestionIndex = 0;
 var score = 0;
+var initials;
+var highScore = 0;
 
 function startGame() {
     isWin = false
@@ -54,7 +56,7 @@ function selectAnswer(event) {
     if (!correct) {
         timerCount = timerCount - 5
     } else {
-        score = score + 12
+        score = score + 10
     }
     
     // setStatusClass(document.body, correct)
@@ -92,7 +94,6 @@ function startTimer() {
         if (timerCount >= 0) {
             if (isWin && timerCount > 0) {
             clearInterval(timer);
-            winGame();
             }
         }
         if (timerCount <= 0) {
@@ -111,30 +112,28 @@ function winGame() {
 
 function loseGame() {
     questionEl.textContent = "GAME OVER";
-    loseSound()
+    // loseSound()
 }
 
 function setHighScore() {
     var highScore = timerCount + score;
     var previousHigh = localStorage.getItem("score");
-    var initials = userInput;
+
     if (previousHigh < highScore) {
         var userInput = window.prompt("Congrats WINNER!!🏆Please enter your initals.");
         localStorage.setItem("score", highScore);
         localStorage.setItem("initials", userInput);
     }
-    console.log(highScore);
-    console.log(userInput);
 }
 
-function loseSound() {
-    var audio = document.createElement("audio")
-    audio.src = "/assets/sad_trombone.wav"
-    // audio.addEventListener("ended", function () {
-    //     document.removeChild(this);
-    // }, false);
-    audio.play();
-}
+// function loseSound() {
+//     var audio = document.createElement("audio")
+//     audio.src = "/assets/sad_trombone.wav"
+//     // audio.addEventListener("ended", function () {
+//     //     document.removeChild(this);
+//     // }, false);
+//     audio.play();
+// }
 
 var questions = [
     {
@@ -195,6 +194,9 @@ answerBtnEl.addEventListener('click', () => {
             setNextQuestion()
         }
 })
-// scoreButton.addEventListener('click', () => {
-//     alert(localStorage.getItem(highScore) + (localStorage.getItem(highScore)));
-// })
+
+scoreButton.addEventListener('click', () => {
+    var highScore = localStorage.getItem("score");
+    var initials = localStorage.getItem("initials");
+    window.alert("The current Leader is " + initials + " with a High Score of " + highScore);
+});
